@@ -98,9 +98,6 @@ int main(int argc, char* argv[]){
 void parse(vector<token> &statement){
   int statement_ptr = 0;
   bool print = true;
-  //subtract 10 from terminals
-  //s_stack.push(T_EOS);
-  //put $ end of string
   s_stack.push(N_S);
   while(!s_stack.empty()){
     Symbols TOS = s_stack.top();

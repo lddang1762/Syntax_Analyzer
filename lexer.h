@@ -81,16 +81,12 @@ void analyzeToken(string tok, int state){
       kw.tok_type = 1;
       kw.lex = tok;
       tok_stream.push_back(kw);
-      // cout << left << setw(15) << "IDENTIFIER" << setw(25) << kw.lex << endl;
-      // outFile << setw(15) << "KEYWORD" << setw(25) << tok << endl;
     }
     else{
       token id;
       id.tok_type = 2;
       id.lex = tok;
       tok_stream.push_back(id);
-      //cout << left << setw(15) << "IDENTIFIER" << setw(25) << id.lex << endl;
-      // outFile << setw(15) << "IDENTIFIER" << setw(25) << tok << endl;
     }
   }
   else if(state == 5){
@@ -99,7 +95,6 @@ void analyzeToken(string tok, int state){
     num.lex = tok;
     tok_stream.push_back(num);
     // printf("%-15s %-25s\n", "NUMBER", tok.c_str());
-    // outFile << setw(15) << "NUMBER" << setw(25) << tok << endl;
   }
   else if(state == 7){
     //do nothing, state 7 is a comment block
@@ -109,16 +104,12 @@ void analyzeToken(string tok, int state){
     sep.tok_type = 4;
     sep.lex = tok;
     tok_stream.push_back(sep);
-    // printf("%-15s %-25s\n", "SEPARATOR", tok.c_str());
-    // outFile << setw(15) << "SEPARATOR" << setw(25) << tok << endl;
   }
   else if(state == 9){
     token op;
     op.tok_type = 5;
     op.lex = tok;
     tok_stream.push_back(op);
-    // printf("%-15s %-25s\n", "OPERATOR", tok.c_str());
-    // outFile << setw(15) << "OPERATOR" << setw(25) << tok << endl;
   }
 }
 
@@ -178,13 +169,6 @@ bool isKeyword(string tok){
 void print_tokens(){ //for reference
 
     for(auto iter = tok_stream.begin(); iter != tok_stream.end(); iter++){
-      // string token="";
-      // if(iter->tok_type == 1) {token = "KEYWORD";}
-      // if(iter->tok_type == 2) {token = "IDENTIFIER";}
-      // if(iter->tok_type == 3) {token = "NUMBER";}
-      // if(iter->tok_type == 4) {token = "SEPARATOR";}
-      // if(iter->tok_type == 5) {token = "OPERATOR";}
-      // cout << left << setw(15) << token << setw(25) << iter->lex << endl;
       iter->print();
     }
 
