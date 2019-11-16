@@ -19,12 +19,23 @@ int DSM_table[9][9] = { {2, 4, 8, 9, 1, 1, 6, 4, 1},
                         {1, 1, 1, 1, 1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-struct lexeme{
+struct token{
   int tok_type; // 1 = keyword, 2 = identifier, 3 = number, 4 = separator, 5 = operator
   string lex;
+  void print(){
+    string token = "";
+    if(tok_type == 1) {token = "KEYWORD";}
+    else if(tok_type == 2) {token = "IDENTIFIER";}
+    else if(tok_type == 3) {token = "NUMBER";}
+    else if(tok_type == 4) {token = "SEPARATOR";}
+    else if(tok_type == 5) {token = "OPERATOR";}
+    cout << left << setw(25) << "Token: " + token << setw(35) <<"Lexeme:   " + lex << endl;
+    outFile << left << setw(25) << "Token: " + token << setw(35) <<"Lexeme:   " + lex << endl;
+  }
 };
 
-vector<lexeme> lex_stream;
+int stream_ptr = 0;
+vector<token> tok_stream;
 
 void lexer();
 void readfile();
@@ -35,7 +46,7 @@ bool isAcceptedState(int state);
 bool isOperator(char c);
 bool isSeparator(char c);
 bool isKeyword(string tok);
-void print_lexemes();
+void print_tokens();
 
 
 void lexer(){
@@ -66,27 +77,27 @@ void lexer(){
 void analyzeToken(string tok, int state){
   if(state == 3){
     if(isKeyword(tok)){
-      lexeme kw;
+      token kw;
       kw.tok_type = 1;
       kw.lex = tok;
-      lex_stream.push_back(kw);
+      tok_stream.push_back(kw);
       // cout << left << setw(15) << "IDENTIFIER" << setw(25) << kw.lex << endl;
       // outFile << setw(15) << "KEYWORD" << setw(25) << tok << endl;
     }
     else{
-      lexeme id;
+      token id;
       id.tok_type = 2;
       id.lex = tok;
-      lex_stream.push_back(id);
+      tok_stream.push_back(id);
       //cout << left << setw(15) << "IDENTIFIER" << setw(25) << id.lex << endl;
       // outFile << setw(15) << "IDENTIFIER" << setw(25) << tok << endl;
     }
   }
   else if(state == 5){
-    lexeme num;
+    token num;
     num.tok_type = 3;
     num.lex = tok;
-    lex_stream.push_back(num);
+    tok_stream.push_back(num);
     // printf("%-15s %-25s\n", "NUMBER", tok.c_str());
     // outFile << setw(15) << "NUMBER" << setw(25) << tok << endl;
   }
@@ -94,18 +105,18 @@ void analyzeToken(string tok, int state){
     //do nothing, state 7 is a comment block
   }
   else if(state == 8){
-    lexeme sep;
+    token sep;
     sep.tok_type = 4;
     sep.lex = tok;
-    lex_stream.push_back(sep);
+    tok_stream.push_back(sep);
     // printf("%-15s %-25s\n", "SEPARATOR", tok.c_str());
     // outFile << setw(15) << "SEPARATOR" << setw(25) << tok << endl;
   }
   else if(state == 9){
-    lexeme op;
+    token op;
     op.tok_type = 5;
     op.lex = tok;
-    lex_stream.push_back(op);
+    tok_stream.push_back(op);
     // printf("%-15s %-25s\n", "OPERATOR", tok.c_str());
     // outFile << setw(15) << "OPERATOR" << setw(25) << tok << endl;
   }
@@ -163,16 +174,17 @@ bool isKeyword(string tok){
   return false;
 }
 
-void print_lexemes(){ //for reference
+void print_tokens(){ //for reference
 
-    for(auto iter = lex_stream.begin(); iter != lex_stream.end(); iter++){
-      string token="";
-      if(iter->tok_type == 1) {token = "KEYWORD";}
-      if(iter->tok_type == 2) {token = "IDENTIFIER";}
-      if(iter->tok_type == 3) {token = "NUMBER";}
-      if(iter->tok_type == 4) {token = "SEPARATOR";}
-      if(iter->tok_type == 5) {token = "OPERATOR";}
-      cout << left << setw(15) << token << setw(25) << iter->lex << endl;
+    for(auto iter = tok_stream.begin(); iter != tok_stream.end(); iter++){
+      // string token="";
+      // if(iter->tok_type == 1) {token = "KEYWORD";}
+      // if(iter->tok_type == 2) {token = "IDENTIFIER";}
+      // if(iter->tok_type == 3) {token = "NUMBER";}
+      // if(iter->tok_type == 4) {token = "SEPARATOR";}
+      // if(iter->tok_type == 5) {token = "OPERATOR";}
+      // cout << left << setw(15) << token << setw(25) << iter->lex << endl;
+      iter->print();
     }
 
 }
