@@ -6,18 +6,18 @@ ifstream inFile;
 ofstream outFile;
 
 vector<string> keywords = {"int", "float", "bool","else","then","if", "endif","while","whileend","do","doend",
-                            "for","forend","input","output","and","or","function"};
+                            "for","forend","input","output","and","or","function", "begin", "end"};
 vector<char> separators = {'\'', '(', ')', '{', '}', '[', ']', ',',':',';'};
 vector<char> operators = {'*', '+', '-', '=', '/', '>', '<', '%'};
-int DSM_table[9][9] = { {2, 4, 8, 9, 1, 1, 6, 4, 1},
-                        {2, 2, 3, 3, 3, 2, 3, 3, 3},
-                        {1, 1, 1, 1, 1, 1, 1, 1, 1},
-                        {5, 4, 5, 5, 5, 5, 5, 4, 5},
-                        {1, 1, 1, 1, 1, 1, 1, 1, 1},
-                        {6, 6, 6, 6, 6, 6, 7, 6, 6},
-                        {1, 1, 1, 1, 1, 1, 1, 1, 1},
-                        {1, 1, 1, 1, 1, 1, 1, 1, 1},
-                        {1, 1, 1, 1, 1, 1, 1, 1, 1}};
+int DSM_table[9][10] = { {2, 4, 8, 9, 1, 1, 6, 4, 1, 1},
+                        {2, 2, 3, 3, 3, 2, 3, 3, 3, 3},
+                        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                        {5, 4, 5, 5, 5, 5, 5, 4, 5, 5},
+                        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                        {6, 6, 6, 6, 6, 6, 7, 6, 6, 7},
+                        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
 struct token{
   int tok_type; // 1 = keyword, 2 = identifier, 3 = number, 4 = separator, 5 = operator
@@ -130,6 +130,7 @@ int char_to_col(char c){
   if(c == '!'){ return 6; }
   if(c == '.'){ return 7; }
   if(c == '\n' || c == '\t'){ return 8; }
+  if(inFile.eof()){ return 9; }
   if(isSeparator(c)){ return 2; }
   if(isOperator(c)){ return 3; }
 
